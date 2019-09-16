@@ -1,0 +1,2 @@
+set environment ARGOS_PLUGIN_PATH @CMAKE_BINARY_DIR@/plugins/robots/virtualdrone
+set environment LD_LIBRARY_PATH ${ARGOS_PLUGIN_PATH}
