@@ -38,8 +38,8 @@
 #define FILE_VIDEO_DEVICE "/dev/video0"
 
 #define IMAGE_BYTES_PER_PIXEL 2u
-#define IMAGE_WIDTH 1920u
-#define IMAGE_HEIGHT 1080u
+#define IMAGE_WIDTH 1280u
+#define IMAGE_HEIGHT 720u
 
 #define TAG_SIDE_LENGTH 0.0235f
 
@@ -53,6 +53,8 @@
 #define DETECT_LED_THRES_Q3_MAX_U 130u
 #define DETECT_LED_THRES_Q4_MAX_V 100u
 #define DETECT_LED_THRES_Q4_MIN_U 145u
+
+/* hint: the command "v4l2-ctl -d0 --list-formats-ext" lists formats for /dev/video0 */
 
 namespace argos {
 
@@ -110,7 +112,7 @@ namespace argos {
             ticpp::Document tDocument = ticpp::Document(strCalibrationFilePath);
             tDocument.LoadFile();
             TConfigurationNode& tCalibrationNode = *tDocument.FirstChildElement();
-            TConfigurationNode& tSensorNode = GetNode(tCalibrationNode, "vritualdrone_camera_system");
+            TConfigurationNode& tSensorNode = GetNode(tCalibrationNode, "virtualdrone_camera_system");
             /* read the parameters */
             GetNodeAttribute(tSensorNode, "focal_length", m_cFocalLength);
             GetNodeAttribute(tSensorNode, "principal_point", m_cPrincipalPoint);
@@ -146,7 +148,7 @@ namespace argos {
          sFormat.fmt.pix.height = IMAGE_HEIGHT;
          sFormat.fmt.pix.sizeimage = IMAGE_WIDTH * IMAGE_HEIGHT * IMAGE_BYTES_PER_PIXEL;
          sFormat.fmt.pix.bytesperline = IMAGE_WIDTH * IMAGE_BYTES_PER_PIXEL;
-         sFormat.fmt.pix.pixelformat = V4L2_PIX_FMT_UYVY;
+         sFormat.fmt.pix.pixelformat = V4L2_PIX_FMT_YUYV;
          sFormat.fmt.pix.field = V4L2_FIELD_NONE;
          if (::ioctl(m_nCameraHandle, VIDIOC_S_FMT, &sFormat) < 0)
             THROW_ARGOSEXCEPTION("Could not set the camera format");
@@ -271,7 +273,7 @@ namespace argos {
             for (UInt32 un_height_index = 0; un_height_index < unImageHeight; un_height_index++) {
                for (UInt32 un_width_index = 0; un_width_index < unImageWidth; un_width_index++) {
                   /* copy data */
-                  m_ptImage->buf[unDestinationIndex++] = punImageData[unSourceIndex + 1];
+                  m_ptImage->buf[unDestinationIndex++] = punImageData[unSourceIndex]; //punImageData[unSourceIndex + 1];
                   /* move to the next pixel */
                   unSourceIndex += 2;
                }
