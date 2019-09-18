@@ -107,9 +107,19 @@ namespace argos {
          m_pcController = dynamic_cast<CLuaController*>(pcController);
          if(m_pcController == nullptr) {
             THROW_ARGOSEXCEPTION("ERROR: controller \"" << strControllerLabel << "\" is not a Lua controller");
+         }        
+         /* connect to the router to emulate the wifi */
+         std::string strRouterConfig;
+         TConfigurationNode& tEnvironment = GetNode(*itController, "environment");
+         GetNodeAttribute(tEnvironment, "router", strRouterConfig);
+         size_t unHostnamePortPos = strRouterConfig.find_last_of(':');
+         if(unHostnamePortPos == std::string::npos) {
+            THROW_ARGOSEXCEPTION("the address of the router must be provided as \"hostname:port\"");
          }
+         SInt32 nPort = std::stoi(strRouterConfig.substr(unHostnamePortPos + 1), nullptr, 0);
+         m_cSocket.Connect(strRouterConfig.substr(0,unHostnamePortPos), nPort);
+         /* go through the actuators */
          std::string strImpl;
-         /* Go through actuators */
          TConfigurationNode& tActuators = GetNode(*itController, "actuators");
          TConfigurationNodeIterator itAct;
          for(itAct = itAct.begin(&tActuators);
@@ -126,7 +136,7 @@ namespace argos {
             m_vecActuators.emplace_back(pcAct);
             m_pcController->AddActuator(itAct->Value(), pcCIAct);
          }
-         /* Go through sensors */
+         /* go through the sensors */
          TConfigurationNode& tSensors = GetNode(*itController, "sensors");
          TConfigurationNodeIterator itSens;
          for(itSens = itSens.begin(&tSensors);

@@ -14,6 +14,7 @@ namespace argos {
 #include <argos3/core/hardware/sensor.h>
 #include <argos3/core/hardware/actuator.h>
 #include <argos3/core/utility/math/rng.h>
+#include <argos3/core/utility/networking/tcp_socket.h>
 #include <argos3/core/utility/configuration/argos_configuration.h>
 
 namespace argos {
@@ -46,6 +47,10 @@ namespace argos {
          return m_unTicksPerSec;
       }
 
+      CTCPSocket& GetSocket() {
+         return m_cSocket;
+      }
+
    private:
 
       CVirtualDrone() :
@@ -71,6 +76,8 @@ namespace argos {
       std::vector<CPhysicalActuator*> m_vecActuators;
       /* the vector of sensors */
       std::vector<CPhysicalSensor*> m_vecSensors;
+      /* the TCP socket for WiFi communication */
+      CTCPSocket m_cSocket;
 
       CPhysicalSensor* m_pcCamera;
    };

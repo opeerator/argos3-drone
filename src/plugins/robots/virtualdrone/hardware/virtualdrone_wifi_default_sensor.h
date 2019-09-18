@@ -9,8 +9,7 @@
 
 namespace argos {
    class CVirtualDroneWifiDefaultSensor;
-   class CControllableEntity;
-   class CRadioEntity;
+   class CTCPSocket;
 }
 
 #include <argos3/plugins/robots/virtualdrone/control_interface/ci_virtualdrone_wifi_sensor.h>
@@ -20,7 +19,6 @@ namespace argos {
 
    class CVirtualDroneWifiDefaultSensor : public CPhysicalSensor,
                                           public CCI_VirtualDroneWifiSensor {
-
    public:
 
       CVirtualDroneWifiDefaultSensor();
@@ -32,6 +30,10 @@ namespace argos {
       virtual void Update();
 
       virtual void Reset();
+
+   private:
+  
+      CTCPSocket& m_cSocket;
 
    };
 }

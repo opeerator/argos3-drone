@@ -9,6 +9,7 @@
 
 namespace argos {
    class CVirtualDroneWifiDefaultActuator;
+   class CTCPSocket;
 }
 
 #include <argos3/core/hardware/actuator.h>
@@ -29,6 +30,10 @@ namespace argos {
       virtual void Update();
 
       virtual void Reset();
+
+   private:
+
+      CTCPSocket& m_cSocket;
 
    };
 }

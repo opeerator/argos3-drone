@@ -14,8 +14,9 @@
   <!-- *************** -->
   <controllers>
     <lua_controller id="drone">
+      <environment router="localhost:8080"/>
       <actuators>
-        <virtualdrone_wifi implementation="default" />
+        <virtualdrone_wifi implementation="default" host="localhost" port="8080" />
       </actuators>
       <sensors>
         <virtualdrone_camera_system implementation="default"
