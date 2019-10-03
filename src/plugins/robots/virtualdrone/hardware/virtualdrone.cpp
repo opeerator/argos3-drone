@@ -73,9 +73,10 @@ namespace argos {
          LOG << "[INFO] Using random seed = " << unRandomSeed << std::endl;
          m_pcRNG = CRandom::CreateRNG("argos");
          /* Set the target tick length */
-         GetNodeAttribute(tExperiment,
-                          "ticks_per_second",
-                          m_unTicksPerSec);
+         GetNodeAttribute(tExperiment, "ticks_per_second", m_unTicksPerSec);
+         /* Set the target number of ticks */
+         GetNodeAttributeOrDefault(tExperiment, "length", m_unLength, m_unLength);
+
       }
       catch(CARGoSException& ex) {
          THROW_ARGOSEXCEPTION_NESTED("Failed to initialize framework", ex);
@@ -192,12 +193,14 @@ namespace argos {
       CRate cRate(m_unTicksPerSec);
       /* start the main control loop */
       try {
-         for(;;) {
+         for(UInt32 unControllerTick = 0;
+             !m_unLength || unControllerTick < m_unLength;
+             ++unControllerTick) {
             /* update the sensors on this thread */
             for(CPhysicalSensor* pc_sensor : m_vecSensors) {
                pc_sensor->Update();
                if(m_bSignalRaised) {
-                  THROW_ARGOSEXCEPTION("Signal " << m_nSignal << " raised during sensor update");
+                  THROW_ARGOSEXCEPTION(m_strSignal << " signal raised during sensor update");
                }
             }
             /* sleep if required */
@@ -213,7 +216,7 @@ namespace argos {
             for(CPhysicalActuator* pc_actuator : m_vecActuators) {
                pc_actuator->Update();
                if(m_bSignalRaised) {
-                  THROW_ARGOSEXCEPTION("Signal " << m_nSignal << " raised during actuator update");
+                  THROW_ARGOSEXCEPTION(m_strSignal << " signal raised during actuator update");
                }
             }
             /* flush the logs */
@@ -223,7 +226,7 @@ namespace argos {
       }
       catch(CARGoSException& ex) {
          LOG.Flush();
-         LOGERR << "[FATAL] Exception thrown in the control loop" << std::endl
+         LOGERR << "[FATAL] Control loop aborted" << std::endl
                 << ex.what() << std::endl;
          LOGERR.Flush();
          return;

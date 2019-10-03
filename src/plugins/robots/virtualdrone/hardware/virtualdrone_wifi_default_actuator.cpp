@@ -39,15 +39,12 @@ namespace argos {
 
    void CVirtualDroneWifiDefaultActuator::Update() {
       if(!m_lstMessages.empty()) {
+         for(const CByteArray& c_message : m_lstMessages) {
+            m_cSocket.SendByteArray(c_message);
+         }
          /* Flush data from the control interface */
          m_lstMessages.clear();
       }
-      CByteArray c;
-      c << std::string("hello world");
-      //m_cSocket.SendByteArray(c);
-
-      const char data[] = "hello world";
-      m_cSocket.SendBuffer(reinterpret_cast<const UInt8*>(data), 11);
    }
 
    /****************************************/

@@ -40,11 +40,17 @@ namespace argos {
    void CVirtualDroneWifiDefaultSensor::Update() {
       /* clear the messages from the interface */
       m_vecMessages.clear();
+      /* buffer for receiving messages */
+      CByteArray cMessage;
       /* read in the new messages to the control interface */
-      m_vecMessages.emplace_back();
-      
-
-      //m_cSocket.ReadByteArray()
+      while(m_cSocket.GetEvents().count(CTCPSocket::EEvent::InputReady) == 1) {
+         if(m_cSocket.ReceiveByteArray(cMessage) == false) {
+            break;
+         }
+         else {
+            m_vecMessages.emplace_back(cMessage);
+         }
+      }
    }
 
    /****************************************/

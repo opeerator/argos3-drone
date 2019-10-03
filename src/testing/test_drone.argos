@@ -6,7 +6,7 @@
   <!-- ************************* -->
   <framework>
     <system threads="0" />
-    <experiment length="0" ticks_per_second="5" random_seed="12345" />
+    <experiment length="5" ticks_per_second="5" random_seed="12345" />
   </framework>
   
   <!-- *************** -->
@@ -14,13 +14,13 @@
   <!-- *************** -->
   <controllers>
     <lua_controller id="drone">
-      <environment router="localhost:8080"/>
+      <environment router="localhost:4950"/>
       <actuators>
-        <virtualdrone_wifi implementation="default" host="localhost" port="8080" />
+        <virtualdrone_wifi implementation="default" />
       </actuators>
       <sensors>
-        <virtualdrone_camera_system implementation="default"
-          calibration="src/calibration/virtualdrone_camera_system.xml" />
+        <!--virtualdrone_camera_system implementation="default"
+          calibration="src/calibration/virtualdrone_camera_system.xml" /-->
         <virtualdrone_wifi implementation="default" />
       </sensors>
       <params script="src/testing/test_drone.lua" />

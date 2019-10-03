@@ -29,7 +29,7 @@ namespace argos {
 
       void SetSignal(int n_signal) {
          m_bSignalRaised = true;
-         m_nSignal = n_signal;
+         m_strSignal = ::strsignal(n_signal);
       }
 
       void Init(TConfigurationNode& t_tree,
@@ -55,9 +55,9 @@ namespace argos {
 
       CVirtualDrone() :
          m_bSignalRaised(false),
-         m_nSignal(0),
          m_pcRNG(nullptr),
          m_unTicksPerSec(0),
+         m_unLength(0),
          m_pcController(nullptr) {}
 
       virtual ~CVirtualDrone() {}
@@ -65,11 +65,13 @@ namespace argos {
    private:
       /* signal handling variables */
       bool m_bSignalRaised;
-      int m_nSignal;
+      std::string m_strSignal;
       /* pointer to the RNG */
       CRandom::CRNG* m_pcRNG;
       /* target tick length for the controller */
       UInt32 m_unTicksPerSec;
+      /* number of ticks to run */
+      UInt32 m_unLength;
       /* pointer to the controller */
       CLuaController* m_pcController;
       /* the vector of actuators */

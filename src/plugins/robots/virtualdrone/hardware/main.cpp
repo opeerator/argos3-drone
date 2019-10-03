@@ -32,7 +32,7 @@ int main(int n_argc, char** ppch_argv) {
    });
    /* capture signals */
    std::signal(SIGINT, handler);
-   std::signal(SIGABRT, handler);
+   //std::signal(SIGABRT, handler);
    std::signal(SIGFPE, handler);
    std::signal(SIGILL, handler);
    std::signal(SIGSEGV, handler);
