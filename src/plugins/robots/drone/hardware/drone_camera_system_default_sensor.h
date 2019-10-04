@@ -1,16 +1,16 @@
 /*
- * @file <argos3/plugins/robots/virtualdrone/hardware/virtualdrone_camera_system_default_sensor.h>
+ * @file <argos3/plugins/robots/drone/hardware/drone_camera_system_default_sensor.h>
  *
  * @author Michael Allwright - <allsey87@gmail.com>
  * @author Weixu Zhu (Harry) - <zhuweixu_harry@126.com>
  */
 
-#ifndef VIRTUALDRONE_CAMERA_SYSTEM_DEFAULT_SENSOR_H
-#define VIRTUALDRONE_CAMERA_SYSTEM_DEFAULT_SENSOR_H
+#ifndef DRONE_CAMERA_SYSTEM_DEFAULT_SENSOR_H
+#define DRONE_CAMERA_SYSTEM_DEFAULT_SENSOR_H
 
 /* forward declarations */
 namespace argos {
-   class CVirtualDroneCameraSystemDefaultSensor;
+   class CDroneCameraSystemDefaultSensor;
 }
 
 struct apriltag_family;
@@ -29,18 +29,18 @@ struct v4l2_buffer;
 #include <argos3/core/utility/math/vector2.h>
 #include <argos3/core/utility/math/vector3.h>
 
-#include <argos3/plugins/robots/virtualdrone/control_interface/ci_virtualdrone_camera_system_sensor.h>
+#include <argos3/plugins/robots/drone/control_interface/ci_drone_camera_system_sensor.h>
 
 namespace argos {
 
-   class CVirtualDroneCameraSystemDefaultSensor : public CPhysicalSensor,
-                                                  public CCI_VirtualDroneCameraSystemSensor {
+   class CDroneCameraSystemDefaultSensor : public CPhysicalSensor,
+                                           public CCI_DroneCameraSystemSensor {
 
    public:
 
-      CVirtualDroneCameraSystemDefaultSensor();
+      CDroneCameraSystemDefaultSensor();
 
-      virtual ~CVirtualDroneCameraSystemDefaultSensor();
+      virtual ~CDroneCameraSystemDefaultSensor();
 
       virtual void Init(TConfigurationNode& t_tree);
 

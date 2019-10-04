@@ -1,10 +1,10 @@
 /**
- * @file <argos3/plugins/robots/virtualdrone/hardware/virtualdrone.cpp>
+ * @file <argos3/plugins/robots/drone/hardware/drone.cpp>
  *
  * @author Michael Allwright - <allsey87@gmail.com>
  */
 
-#include "virtualdrone.h"
+#include "drone.h"
 
 #include <sys/time.h>
 #include <unistd.h>
@@ -26,7 +26,7 @@
 
 namespace argos {
 
-   void CVirtualDrone::Init(TConfigurationNode& t_tree, const std::string& str_controller_id) {
+   void CDrone::Init(TConfigurationNode& t_tree, const std::string& str_controller_id) {
       /* Initialize the framework */
       InitFramework(GetNode(t_tree, "framework"));
       /* Initialize the controller */
@@ -36,7 +36,7 @@ namespace argos {
    /****************************************/
    /****************************************/
 
-   void CVirtualDrone::Destroy() {
+   void CDrone::Destroy() {
       /* delete actuators */
       for(CPhysicalActuator* pc_actuator : m_vecActuators)
          delete pc_actuator;
@@ -51,7 +51,7 @@ namespace argos {
    /****************************************/
    /****************************************/
 
-   void CVirtualDrone::InitFramework(TConfigurationNode& t_tree) {
+   void CDrone::InitFramework(TConfigurationNode& t_tree) {
       try {
          /* Get the experiment node */
          TConfigurationNode tExperiment = GetNode(t_tree, "experiment");
@@ -86,7 +86,7 @@ namespace argos {
    /****************************************/
    /****************************************/
 
-   void CVirtualDrone::InitController(TConfigurationNode& t_tree, const std::string& str_controller_id) {
+   void CDrone::InitController(TConfigurationNode& t_tree, const std::string& str_controller_id) {
       try {
          std::string strControllerLabel;
          TConfigurationNodeIterator itController;
@@ -164,9 +164,9 @@ namespace argos {
          } 
          else {
             LOGERR << "[WARNING] Failed to get the hostname."
-                   << "Setting controller id to \"virtualdrone\""
+                   << "Setting controller id to \"drone\""
                    << std::endl;
-            m_pcController->SetId("virtualdrone");
+            m_pcController->SetId("drone");
          }
          /* If the parameters node doesn't exist, create one */
          if(!NodeExists(*itController, "params")) {
@@ -188,7 +188,7 @@ namespace argos {
    /****************************************/
    /****************************************/
 
-   void CVirtualDrone::Execute() {
+   void CDrone::Execute() {
       /* initialize the tick rate */
       CRate cRate(m_unTicksPerSec);
       /* start the main control loop */

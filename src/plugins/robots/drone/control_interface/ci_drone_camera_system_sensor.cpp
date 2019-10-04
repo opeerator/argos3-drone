@@ -1,10 +1,10 @@
 /**
- * @file <argos3/plugins/robots/virtualdrone/control_interface/ci_virtualdrone_camera_system_sensor.cpp>
+ * @file <argos3/plugins/robots/drone/control_interface/ci_drone_camera_system_sensor.cpp>
  *
  * @author Michael Allwright <allsey87@gmail.com>
  */
 
-#include "ci_virtualdrone_camera_system_sensor.h"
+#include "ci_drone_camera_system_sensor.h"
 
 #ifdef ARGOS_WITH_LUA
 #include <argos3/core/wrappers/lua/lua_utility.h>
@@ -17,14 +17,14 @@ namespace argos {
    /****************************************/
 
 #ifdef ARGOS_WITH_LUA
-   int LuaEnableVirtualDroneCameraSystemSensor(lua_State* pt_lua_state) {
+   int LuaEnableDroneCameraSystemSensor(lua_State* pt_lua_state) {
       /* Check parameters */
       if(lua_gettop(pt_lua_state) != 0) {
          return luaL_error(pt_lua_state, "robot.camera_system.enable() expects zero arguments");
       }
       /* Get the camera sensor */
-      CCI_VirtualDroneCameraSystemSensor* pcCameraSensor = 
-         CLuaUtility::GetDeviceInstance<CCI_VirtualDroneCameraSystemSensor>(pt_lua_state, "camera_system");
+      CCI_DroneCameraSystemSensor* pcCameraSensor = 
+         CLuaUtility::GetDeviceInstance<CCI_DroneCameraSystemSensor>(pt_lua_state, "camera_system");
       /* Set the enable member */
       pcCameraSensor->Enable();
       return 0;
@@ -35,14 +35,14 @@ namespace argos {
    /****************************************/
 
 #ifdef ARGOS_WITH_LUA
-   int LuaDisableVirtualDroneCameraSystemSensor(lua_State* pt_lua_state) {
+   int LuaDisableDroneCameraSystemSensor(lua_State* pt_lua_state) {
       /* Check parameters */
       if(lua_gettop(pt_lua_state) != 0) {
          return luaL_error(pt_lua_state, "robot.camera_system.disable() expects zero arguments");
       }
       /* Get the camera sensor */
-      CCI_VirtualDroneCameraSystemSensor* pcCameraSensor = 
-         CLuaUtility::GetDeviceInstance<CCI_VirtualDroneCameraSystemSensor>(pt_lua_state, "camera_system");
+      CCI_DroneCameraSystemSensor* pcCameraSensor = 
+         CLuaUtility::GetDeviceInstance<CCI_DroneCameraSystemSensor>(pt_lua_state, "camera_system");
       /* Set the enable member */
       pcCameraSensor->Disable();
       return 0;
@@ -57,17 +57,17 @@ namespace argos {
     * the stack must contain a single table with keys named x, y, and z
     * which represent the X, Y, and Z components of a 3D vector
     */
-   int LuaVirtualDroneCameraSystemSensorDetectLed(lua_State* pt_lua_state) {
+   int LuaDroneCameraSystemSensorDetectLed(lua_State* pt_lua_state) {
       /* check parameters */
       if(lua_gettop(pt_lua_state) != 1) {
          return luaL_error(pt_lua_state, "robot.camera_system.detect_led() expects a single argument");
       }
       const CVector3& cPosition = CLuaVector3::ToVector3(pt_lua_state, 1);
       /* get the camera sensor */
-      CCI_VirtualDroneCameraSystemSensor* pcCameraSensor = 
-         CLuaUtility::GetDeviceInstance<CCI_VirtualDroneCameraSystemSensor>(pt_lua_state, "camera_system");
+      CCI_DroneCameraSystemSensor* pcCameraSensor = 
+         CLuaUtility::GetDeviceInstance<CCI_DroneCameraSystemSensor>(pt_lua_state, "camera_system");
       /* get the LED state */
-      const CCI_VirtualDroneCameraSystemSensor::ELedState& eLedState =
+      const CCI_DroneCameraSystemSensor::ELedState& eLedState =
          pcCameraSensor->DetectLed(cPosition);
       /* convert the LED state to an integer and push it onto the stack */
       lua_pushinteger(pt_lua_state, static_cast<UInt8>(eLedState));
@@ -80,18 +80,18 @@ namespace argos {
    /****************************************/
 
 #ifdef ARGOS_WITH_LUA
-   void CCI_VirtualDroneCameraSystemSensor::CreateLuaState(lua_State* pt_lua_state) {
+   void CCI_DroneCameraSystemSensor::CreateLuaState(lua_State* pt_lua_state) {
       CLuaUtility::OpenRobotStateTable(pt_lua_state, "camera_system");
       CLuaUtility::AddToTable(pt_lua_state, "_instance", this);
       CLuaUtility::AddToTable(pt_lua_state,
                               "enable",
-                              &LuaEnableVirtualDroneCameraSystemSensor);
+                              &LuaEnableDroneCameraSystemSensor);
       CLuaUtility::AddToTable(pt_lua_state,
                               "disable",
-                              &LuaDisableVirtualDroneCameraSystemSensor);
+                              &LuaDisableDroneCameraSystemSensor);
       CLuaUtility::AddToTable(pt_lua_state,
                               "detect_led",
-                              &LuaVirtualDroneCameraSystemSensorDetectLed);
+                              &LuaDroneCameraSystemSensorDetectLed);
       CLuaUtility::AddToTable(pt_lua_state, "timestamp", 0.0f);
       CLuaUtility::StartTable(pt_lua_state, "tags");
       for(size_t i = 0; i < m_tTags.size(); ++i) {
@@ -118,7 +118,7 @@ namespace argos {
    /****************************************/
 
 #ifdef ARGOS_WITH_LUA
-   void CCI_VirtualDroneCameraSystemSensor::ReadingsToLuaState(lua_State* pt_lua_state) {
+   void CCI_DroneCameraSystemSensor::ReadingsToLuaState(lua_State* pt_lua_state) {
       CLuaUtility::OpenRobotStateTable(pt_lua_state, "camera_system");
       CLuaUtility::AddToTable(pt_lua_state, "timestamp", m_fTimestamp);
       CLuaUtility::StartTable(pt_lua_state, "tags");

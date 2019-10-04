@@ -1,14 +1,14 @@
 /**
- * @file <argos3/plugins/robots/virtualdrone/control_interface/ci_virtualdrone_wifi_sensor.h>
+ * @file <argos3/plugins/robots/drone/control_interface/ci_drone_wifi_sensor.h>
  *
  * @author Michael Allwright <allsey87@gmail.com>
  */
 
-#ifndef CCI_VIRTUALDRONE_WIFI_SENSOR_H
-#define CCI_VIRTUALDRONE_WIFI_SENSOR_H
+#ifndef CCI_DRONE_WIFI_SENSOR_H
+#define CCI_DRONE_WIFI_SENSOR_H
 
 namespace argos {
-   class CCI_VirtualDroneWifiSensor;
+   class CCI_DroneWifiSensor;
 }
 
 #include <argos3/core/control_interface/ci_sensor.h>
@@ -18,13 +18,13 @@ namespace argos {
 
 namespace argos {
 
-   class CCI_VirtualDroneWifiSensor : public CCI_Sensor {
+   class CCI_DroneWifiSensor : public CCI_Sensor {
 
    public:
 
-      CCI_VirtualDroneWifiSensor() {}
+      CCI_DroneWifiSensor() {}
 
-      virtual ~CCI_VirtualDroneWifiSensor() {}
+      virtual ~CCI_DroneWifiSensor() {}
 
       const std::vector<CByteArray>& GetMessages() {
          return m_vecMessages;

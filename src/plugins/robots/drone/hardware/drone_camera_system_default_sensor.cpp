@@ -1,11 +1,11 @@
 /**
- * @file <argos3/plugins/robots/virtualdrone/hardware/virtualdrone_camera_system_default_sensor.cpp>
+ * @file <argos3/plugins/robots/drone/hardware/drone_camera_system_default_sensor.cpp>
  *
  * @author Michael Allwright - <allsey87@gmail.com>
  * @author Weixu Zhu (Harry) - <zhuweixu_harry@126.com>
  */
 
-#include "virtualdrone_camera_system_default_sensor.h"
+#include "drone_camera_system_default_sensor.h"
 
 #include <argos3/core/utility/logging/argos_log.h>
 #include <argos3/core/utility/math/vector2.h>
@@ -61,7 +61,7 @@ namespace argos {
    /****************************************/
    /****************************************/
    
-   CVirtualDroneCameraSystemDefaultSensor::CVirtualDroneCameraSystemDefaultSensor() :
+   CDroneCameraSystemDefaultSensor::CDroneCameraSystemDefaultSensor() :
       m_cFocalLength(DEFAULT_FOCAL_LENGTH_X, DEFAULT_FOCAL_LENGTH_Y),
       m_cPrincipalPoint(DEFAULT_PRINCIPAL_POINT_X, DEFAULT_PRINCIPAL_POINT_Y) {
       /* initialize the apriltag components */
@@ -83,7 +83,7 @@ namespace argos {
    /****************************************/
    /****************************************/
 
-   CVirtualDroneCameraSystemDefaultSensor::~CVirtualDroneCameraSystemDefaultSensor() {
+   CDroneCameraSystemDefaultSensor::~CDroneCameraSystemDefaultSensor() {
       /* deallocate image memory */
       ::image_u8_destroy(m_ptImage);
       /* uninitialize the apriltag components */
@@ -97,22 +97,22 @@ namespace argos {
    /****************************************/
    /****************************************/
 
-   void CVirtualDroneCameraSystemDefaultSensor::Init(TConfigurationNode& t_tree) {
+   void CDroneCameraSystemDefaultSensor::Init(TConfigurationNode& t_tree) {
       try {
-         CCI_VirtualDroneCameraSystemSensor::Init(t_tree);
+         CCI_DroneCameraSystemSensor::Init(t_tree);
          /********************************/
          /* retrieve the calibraton data */
          /********************************/
          std::string strCalibrationFilePath;
          GetNodeAttributeOrDefault(t_tree, "calibration", strCalibrationFilePath, strCalibrationFilePath);
          if(strCalibrationFilePath.empty()) {
-            LOGERR << "[WARNING] No calibration data provided for the virtual drone camera system" << std::endl;
+            LOGERR << "[WARNING] No calibration data provided for the drone camera system" << std::endl;
          }
          else {
             ticpp::Document tDocument = ticpp::Document(strCalibrationFilePath);
             tDocument.LoadFile();
             TConfigurationNode& tCalibrationNode = *tDocument.FirstChildElement();
-            TConfigurationNode& tSensorNode = GetNode(tCalibrationNode, "virtualdrone_camera_system");
+            TConfigurationNode& tSensorNode = GetNode(tCalibrationNode, "drone_camera_system");
             /* read the parameters */
             GetNodeAttribute(tSensorNode, "focal_length", m_cFocalLength);
             GetNodeAttribute(tSensorNode, "principal_point", m_cPrincipalPoint);
@@ -201,7 +201,7 @@ namespace argos {
    /****************************************/
    /****************************************/
 
-   void CVirtualDroneCameraSystemDefaultSensor::Enable() {
+   void CDroneCameraSystemDefaultSensor::Enable() {
       if(m_bEnabled == false) {
          /* enqueue the first buffer */
          ::v4l2_buffer sBuffer;
@@ -212,14 +212,14 @@ namespace argos {
          if(::ioctl(m_nCameraHandle, VIDIOC_QBUF, &sBuffer) < 0) {
             THROW_ARGOSEXCEPTION("Could not enqueue used buffer");
          }
-         CCI_VirtualDroneCameraSystemSensor::Enable();
+         CCI_DroneCameraSystemSensor::Enable();
       }
    }
 
    /****************************************/
    /****************************************/
 
-   void CVirtualDroneCameraSystemDefaultSensor::Disable() {
+   void CDroneCameraSystemDefaultSensor::Disable() {
       if(m_bEnabled == true) {
          /* dequeue the next buffer */
          ::v4l2_buffer sBuffer;
@@ -230,14 +230,14 @@ namespace argos {
          if(::ioctl(m_nCameraHandle, VIDIOC_DQBUF, &sBuffer) < 0) {
             LOGERR << "[WARNING] Could not dequeue buffer" << std::endl;
          }
-         CCI_VirtualDroneCameraSystemSensor::Disable();
+         CCI_DroneCameraSystemSensor::Disable();
       }
    }
 
    /****************************************/
    /****************************************/
 
-   void CVirtualDroneCameraSystemDefaultSensor::Update() {
+   void CDroneCameraSystemDefaultSensor::Update() {
       /* clear out previous readings */
       m_tTags.clear();
       /* update the timestamp in the control interface */
@@ -329,7 +329,7 @@ namespace argos {
    /****************************************/
    /****************************************/
 
-   void CVirtualDroneCameraSystemDefaultSensor::Destroy() {
+   void CDroneCameraSystemDefaultSensor::Destroy() {
       /* disable the sensor */
       Disable();
       /* stop the stream */
@@ -344,8 +344,8 @@ namespace argos {
    /****************************************/
    /****************************************/
 
-   CVirtualDroneCameraSystemDefaultSensor::ELedState
-      CVirtualDroneCameraSystemDefaultSensor::DetectLed(const CVector3& c_position) {
+   CDroneCameraSystemDefaultSensor::ELedState
+      CDroneCameraSystemDefaultSensor::DetectLed(const CVector3& c_position) {
       /* project the LED position onto the sensor array */
       CMatrix<3,1> cLedPosition;
       cLedPosition(0) = c_position.GetX();
@@ -437,12 +437,12 @@ namespace argos {
    /****************************************/
    /****************************************/
    
-   REGISTER_SENSOR(CVirtualDroneCameraSystemDefaultSensor,
-                   "virtualdrone_camera_system", "default",
+   REGISTER_SENSOR(CDroneCameraSystemDefaultSensor,
+                   "drone_camera_system", "default",
                    "Michael Allwright [allsey87@gmail.com]",
                    "1.0",
-                   "Camera sensor for the virtual drone",
-                   "Camera sensor for the virtual drone\n",
+                   "Camera sensor for the drone",
+                   "Camera sensor for the drone\n",
                    "Under development");
 
    /****************************************/

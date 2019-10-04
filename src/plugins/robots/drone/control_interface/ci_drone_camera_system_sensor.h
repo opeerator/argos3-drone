@@ -1,14 +1,14 @@
 /**
- * @file <argos3/plugins/robots/virtualdrone/control_interface/ci_virtualdrone_camera_system_sensor.h>
+ * @file <argos3/plugins/robots/drone/control_interface/ci_drone_camera_system_sensor.h>
  *
  * @author Michael Allwright <allsey87@gmail.com>
  */
 
-#ifndef CCI_VIRTUALDRONE_CAMERA_SYSTEM_SENSOR_H
-#define CCI_VIRTUALDRONE_CAMERA_SYSTEM_SENSOR_H
+#ifndef CCI_DRONE_CAMERA_SYSTEM_SENSOR_H
+#define CCI_DRONE_CAMERA_SYSTEM_SENSOR_H
 
 namespace argos {
-   class CCI_VirtualDroneCameraSystemSensor;
+   class CCI_DroneCameraSystemSensor;
 }
 
 #include <argos3/core/control_interface/ci_sensor.h>
@@ -18,7 +18,7 @@ namespace argos {
 
 namespace argos {
 
-   class CCI_VirtualDroneCameraSystemSensor : public CCI_Sensor {
+   class CCI_DroneCameraSystemSensor : public CCI_Sensor {
 
    public:
 
@@ -55,10 +55,10 @@ namespace argos {
 
    public:
 
-      CCI_VirtualDroneCameraSystemSensor() :
+      CCI_DroneCameraSystemSensor() :
          m_bEnabled(false) {}
 
-      virtual ~CCI_VirtualDroneCameraSystemSensor() {}
+      virtual ~CCI_DroneCameraSystemSensor() {}
 
       virtual void Reset() {
          /* clear the readings */

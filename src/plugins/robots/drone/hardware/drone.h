@@ -1,11 +1,11 @@
 /**
- * @file <argos3/plugins/robots/virtualdrone/hardware/virtualdrone.h>
+ * @file <argos3/plugins/robots/drone/hardware/drone.h>
  *
  * @author Michael Allwright - <allsey87@gmail.com>
  */
 
-#ifndef VIRTUALDRONE_H
-#define VIRTUALDRONE_H
+#ifndef DRONE_H
+#define DRONE_H
 
 namespace argos {
    class CLuaController;
@@ -19,12 +19,12 @@ namespace argos {
 
 namespace argos {
 
-   class CVirtualDrone {
+   class CDrone {
 
    public:
-      static CVirtualDrone& GetInstance() {
-         static CVirtualDrone cVirtualDrone;
-         return cVirtualDrone;
+      static CDrone& GetInstance() {
+         static CDrone cDrone;
+         return cDrone;
       }
 
       void SetSignal(int n_signal) {
@@ -53,14 +53,14 @@ namespace argos {
 
    private:
 
-      CVirtualDrone() :
+      CDrone() :
          m_bSignalRaised(false),
          m_pcRNG(nullptr),
          m_unTicksPerSec(0),
          m_unLength(0),
          m_pcController(nullptr) {}
 
-      virtual ~CVirtualDrone() {}
+      virtual ~CDrone() {}
 
    private:
       /* signal handling variables */

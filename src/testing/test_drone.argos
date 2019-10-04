@@ -16,12 +16,12 @@
     <lua_controller id="drone">
       <environment router="localhost:4950"/>
       <actuators>
-        <virtualdrone_wifi implementation="default" />
+        <drone_wifi implementation="default" />
       </actuators>
       <sensors>
-        <!--virtualdrone_camera_system implementation="default"
-          calibration="src/calibration/virtualdrone_camera_system.xml" /-->
-        <virtualdrone_wifi implementation="default" />
+        <!--drone_camera_system implementation="default"
+          calibration="src/calibration/drone_camera_system.xml" /-->
+        <drone_wifi implementation="default" />
       </sensors>
       <params script="src/testing/test_drone.lua" />
     </lua_controller>

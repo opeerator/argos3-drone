@@ -1,5 +1,5 @@
 /**
-* @file <argos3/plugins/robots/virtualdrone/hardware/main.cpp>
+* @file <argos3/plugins/robots/drone/hardware/main.cpp>
 *
 * @author Michael Allwright - <allsey87@gmail.com>
 */
@@ -8,12 +8,12 @@
 
 #include <argos3/core/utility/configuration/command_line_arg_parser.h>
 #include <argos3/core/utility/plugins/dynamic_loading.h>
-#include <argos3/plugins/robots/virtualdrone/hardware/virtualdrone.h>
+#include <argos3/plugins/robots/drone/hardware/drone.h>
 
 using namespace argos;
 
 void handler(int n_signal) {
-  CVirtualDrone::GetInstance().SetSignal(n_signal);
+  CDrone::GetInstance().SetSignal(n_signal);
   /* allow the user to kill application immediately with ctrl-c */
   std::signal(SIGINT, SIG_DFL);
   /* ignore other signals and attempt to allow the robot to shutdown */
@@ -81,13 +81,13 @@ int main(int n_argc, char** ppch_argv) {
    /* Load the file */
    tConfiguration.LoadFile();
    /* Get robot instance */
-   CVirtualDrone& cVirtualDrone = CVirtualDrone::GetInstance();
-   /* Initialize the virtual drone */
-   cVirtualDrone.Init(*tConfiguration.FirstChildElement(), strControllerId);
-   /* Start the virtual drones' main loop */
-   cVirtualDrone.Execute();
+   CDrone& cDrone = CDrone::GetInstance();
+   /* Initialize the  drone */
+   cDrone.Init(*tConfiguration.FirstChildElement(), strControllerId);
+   /* Start the drone's main loop */
+   cDrone.Execute();
    /* Clean up resources */
-   cVirtualDrone.Destroy();
+   cDrone.Destroy();
    /* Load all libraries */
    CDynamicLoading::UnloadAllLibraries();
    /* Exit */

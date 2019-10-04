@@ -1,4 +1,4 @@
-add_subdirectory(virtualdrone)
+add_subdirectory(drone)
 
 
 

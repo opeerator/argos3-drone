@@ -1,5 +1,5 @@
 #!/bin/sh
 
-export ARGOS_PLUGIN_PATH=@CMAKE_BINARY_DIR@/plugins/robots/virtualdrone
+export ARGOS_PLUGIN_PATH=@CMAKE_BINARY_DIR@/plugins/robots/drone
 
 export @ARGOS_DYNAMIC_LIBRARY_VARIABLE@=${@ARGOS_DYNAMIC_LIBRARY_VARIABLE@}:${ARGOS_PLUGIN_PATH}
